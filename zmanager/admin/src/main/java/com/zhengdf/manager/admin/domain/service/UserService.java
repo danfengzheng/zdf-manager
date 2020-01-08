@@ -26,7 +26,6 @@ public class UserService {
 
     public SysUser add(SysUser user){
         user.setUserId(IdGen.getId());
-        user.setCreateTime(System.currentTimeMillis());
         user.setUserStatus(0);
         user.setLogErr(0);
         return userRepository.save(user);

@@ -1,4 +1,4 @@
-package com.zhengdf.manager.admin.domain;
+package com.zhengdf.manager.admin.domain.vo;
 
 import lombok.Data;
 

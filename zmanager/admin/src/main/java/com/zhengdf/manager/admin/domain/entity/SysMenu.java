@@ -1,10 +1,10 @@
 package com.zhengdf.manager.admin.domain.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.signature.qual.Identifier;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.sql.Update;
@@ -12,34 +12,29 @@ import org.hibernate.sql.Update;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
-/**
- * @ClassName SysUser
- * @Description TODO
- * @Author zhengdf
- * @Date 2020/1/8 18:04
- * @Version 1.0
- * @Memo
- **/
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sys_user")
-public class SysUser {
+@Table(name = "sys_menu")
+public class SysMenu {
+
     @Id
     @NotNull(groups = Update.class)
     @GeneratedValue(generator = "paymentableGenerator")
     @GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-    private String userId;
-    private String userName;
-    private String userPass;
-    private Integer userStatus;
+    private String menuId;
+    private String menuName;
+    @Column(columnDefinition = "varchar(20) default '0' ")
+    private String parentId;
+    private String menuUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createTime;
-    private Integer logErr;
+    private Integer available;
+    private Long menuSort;
+
 }

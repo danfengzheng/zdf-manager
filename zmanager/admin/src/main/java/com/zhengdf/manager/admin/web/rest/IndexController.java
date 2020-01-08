@@ -1,6 +1,6 @@
 package com.zhengdf.manager.admin.web.rest;
 
-import com.zhengdf.manager.admin.domain.RegisterVo;
+import com.zhengdf.manager.admin.domain.vo.RegisterVo;
 import com.zhengdf.manager.admin.domain.entity.SysUser;
 import com.zhengdf.manager.admin.domain.service.UserService;
 import com.zhengdf.manager.admin.utils.IdGen;
