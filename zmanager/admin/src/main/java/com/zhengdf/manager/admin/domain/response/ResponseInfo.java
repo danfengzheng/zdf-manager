@@ -1,5 +1,6 @@
 package com.zhengdf.manager.admin.domain.response;
 
+import com.zhengdf.manager.admin.constant.CommonEnums;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,16 @@ import org.apache.poi.ss.formula.functions.T;
 public class ResponseInfo<T> {
     private Long code;
     private String message;
-    private T date;
+    private T data;
 
+    public static ResponseInfo getInstance(CommonEnums commonEnums){
+        return ResponseInfo.builder().code(commonEnums.getCode()).message(commonEnums.getMessage()).build();
+    }
+
+
+    public ResponseInfo success(T data){
+        ResponseInfo info = getInstance(CommonEnums.SUCCESS);
+        info.setData(data);
+        return info;
+    }
 }

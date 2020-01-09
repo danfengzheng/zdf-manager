@@ -1,6 +1,6 @@
 package com.zhengdf.manager.admin.domain.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * @ClassName SysUserMapper
@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version 1.0
  * @Memo
  **/
-@Mapper
+@Repository
 public interface SysUserMapper {
 }

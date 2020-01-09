@@ -1,7 +1,9 @@
 package com.zhengdf.manager.admin.domain.service;
 
 import com.zhengdf.manager.admin.domain.entity.SysUser;
+import com.zhengdf.manager.admin.domain.mapper.SysUserMapper;
 import com.zhengdf.manager.admin.domain.repository.SysUserRepository;
+import com.zhengdf.manager.admin.domain.vo.LoginVo;
 import com.zhengdf.manager.admin.utils.DateTimeUtil;
 import com.zhengdf.manager.admin.utils.IdGen;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +26,18 @@ public class UserService {
     @Autowired
     SysUserRepository userRepository;
 
+    @Autowired
+    private SysUserMapper userMapper;
+
     public SysUser add(SysUser user){
         user.setUserId(IdGen.getId());
         user.setUserStatus(0);
         user.setLogErr(0);
         return userRepository.save(user);
+    }
+
+    public SysUser findByUserName(String username){
+        SysUser user = userRepository.findByUserName(username);
+        return user;
     }
 }

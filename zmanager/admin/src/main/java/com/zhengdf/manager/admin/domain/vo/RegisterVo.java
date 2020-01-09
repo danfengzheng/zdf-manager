@@ -14,4 +14,5 @@ import lombok.Data;
 public class RegisterVo {
     private String userName;
     private String userPass;
+    private String name;
 }

@@ -1,6 +1,7 @@
 package com.zhengdf.manager.admin.domain.repository;
 
 import com.zhengdf.manager.admin.domain.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -13,4 +14,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @Memo
  **/
 public interface SysUserRepository  extends JpaRepository<SysUser, Long>, JpaSpecificationExecutor<SysUser> {
+    SysUser findByUserName(@Param("userName") String userName);
 }
