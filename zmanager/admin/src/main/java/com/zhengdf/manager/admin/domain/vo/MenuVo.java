@@ -8,12 +8,7 @@ public class MenuVo {
     private String menuName;
     private String menuUrl;
     private Long menuSort;
-    private String parentId;
-
-    public String getParentId() {
-        if (StringUtils.isBlank(this.parentId)) {
-            return "0";
-        }
-        return this.parentId;
-    }
+    private Long parentId;
+    private Long resourceType;
+    private String permission;
 }

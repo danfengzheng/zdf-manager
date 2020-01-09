@@ -1,9 +1,10 @@
 package com.zhengdf.manager.admin.web.rest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName UserController
@@ -14,12 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
  * @Memo
  **/
 @RestController
+@Api(tags = "系统：用户管理")
 @RequestMapping("/api/user")
 public class UserController {
 
-    @GetMapping(value = "/add")
-    public String add(){
 
-        return "";
+
+    @ApiOperation("用户查询")
+    @GetMapping(value = "/find")
+    public ResponseEntity find(){
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation("用户新增")
+    @PostMapping(value = "/add")
+    public ResponseEntity add(){
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation("用户修改")
+    @PostMapping(value = "/edit")
+    public ResponseEntity edit(){
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

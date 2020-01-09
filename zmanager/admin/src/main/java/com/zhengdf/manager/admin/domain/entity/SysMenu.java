@@ -7,11 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.sql.Update;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,12 +21,10 @@ import java.util.Date;
 public class SysMenu {
 
     @Id
-    @NotNull(groups = Update.class)
-    @GeneratedValue(generator = "paymentableGenerator")
-    @GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
     private String menuId;
     private String menuName;
-    @Column(columnDefinition = "varchar(20) default '0' ")
     private String parentId;
     private String menuUrl;
 
@@ -36,5 +33,14 @@ public class SysMenu {
     private Date createTime;
     private Integer available;
     private Long menuSort;
+    private Long resourceType;
+
+    private String permission;
+
+    /*角色 -- 权限关系：多对多关系;*/
+
+    @ManyToMany
+    @JoinTable(name = "SysRolePermission", joinColumns = {@JoinColumn(name = "menuId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
+    private Set<SysRole> roles;
 
 }
