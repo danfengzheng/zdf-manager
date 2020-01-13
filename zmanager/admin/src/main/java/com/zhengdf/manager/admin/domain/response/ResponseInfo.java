@@ -29,9 +29,13 @@ public class ResponseInfo<T> {
     }
 
 
-    public ResponseInfo success(T data){
+    public static ResponseInfo success(Object data){
         ResponseInfo info = getInstance(CommonEnums.SUCCESS);
         info.setData(data);
+        return info;
+    }
+    public static ResponseInfo success(){
+        ResponseInfo info = getInstance(CommonEnums.SUCCESS);
         return info;
     }
 }

@@ -1,6 +1,7 @@
 package com.zhengdf.manager.admin.web.rest;
 
 import com.zhengdf.manager.admin.conf.aop.Log;
+import com.zhengdf.manager.admin.constant.CommonEnums;
 import com.zhengdf.manager.admin.domain.entity.SysMenu;
 import com.zhengdf.manager.admin.domain.response.ResponseInfo;
 import com.zhengdf.manager.admin.domain.service.MenuService;
@@ -9,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +31,16 @@ public class MenuController {
     @Log("查询菜单")
     @GetMapping("/find")
     @ApiOperation("查询菜单")
+    @RequiresPermissions("menu:list")
     public ResponseInfo find(MenuVo vo){
 //        return ResponseInfo.builder(HttpStatus.OK).body(menuService.findMenu());
-        return ResponseInfo.builder().code(20000L).build();
+        return ResponseInfo.success();
     }
 
     @Log("新增菜单")
     @PostMapping("/add")
     @ApiOperation("新增菜单")
+    @RequiresPermissions("menu:add")
     public ResponseEntity add(@RequestBody MenuVo vo){
         SysMenu menu = SysMenu.builder().build();
         BeanUtils.copyProperties(vo,menu);

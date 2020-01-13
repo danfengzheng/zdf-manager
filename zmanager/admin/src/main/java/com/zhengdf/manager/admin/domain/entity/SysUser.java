@@ -46,6 +46,8 @@ public class SysUser {
     private Date createTime;
     private Integer logErr;
 
+    private String salt;
+
     /*立即从数据库中进行加载数据;*/
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -8,6 +8,7 @@ import com.zhengdf.manager.admin.domain.response.ResponseInfo;
 import com.zhengdf.manager.admin.domain.service.UserService;
 import com.zhengdf.manager.admin.domain.vo.LoginVo;
 import com.zhengdf.manager.admin.domain.vo.RegisterVo;
+import com.zhengdf.manager.admin.shiro.JwtToken;
 import com.zhengdf.manager.admin.utils.IdGen;
 import com.zhengdf.manager.admin.utils.UserUtils;
 import io.swagger.annotations.Api;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @ClassName IndexController
  * @Description TODO
@@ -39,38 +42,43 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Api(tags = "登陆注册")
-@RequestMapping(value = "/api/index")
-public class IndexController {
+@RequestMapping(value = "/api/login")
+public class LoginController {
     @Autowired
     UserService service;
 
     @Log("用户登录")
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public ResponseInfo login(@RequestBody LoginVo vo) {
-        UsernamePasswordToken token = new UsernamePasswordToken(vo.getUsername(),vo.getPassword());
+    public ResponseInfo login(@RequestBody LoginVo vo, HttpServletResponse response) {
+//        UsernamePasswordToken token = new UsernamePasswordToken(vo.getUsername(),vo.getPassword());
+        String tokenStr = service.createToken(vo);
+        JwtToken token = new JwtToken(tokenStr);
         Subject currentUser = SecurityUtils.getSubject();
-        try {
+//        try {
             //主体提交登录请求到SecurityManager
             currentUser.login(token);
-        }catch (IncorrectCredentialsException ice){
-            return ResponseInfo.getInstance(CommonEnums.ERROR_PASSWORD);
-//            model.addAttribute("msg","密码不正确");
-        }catch(UnknownAccountException uae){
-//            model.addAttribute("msg","账号不存在");
-            return ResponseInfo.getInstance(CommonEnums.ERROR_USER_NOT_EXISTS);
-        }catch(AuthenticationException ae){
-//            model.addAttribute("msg","状态不正常");
-            return ResponseInfo.getInstance(CommonEnums.ERROR_ACCOUNT_BLOCKED);
-        }
+//        }catch (IncorrectCredentialsException ice){
+//            return ResponseInfo.getInstance(CommonEnums.ERROR_PASSWORD);
+////            model.addAttribute("msg","密码不正确");
+//        }catch(UnknownAccountException uae){
+////            model.addAttribute("msg","账号不存在");
+//            return ResponseInfo.getInstance(CommonEnums.ERROR_USER_NOT_EXISTS);
+//        }catch(AuthenticationException ae){
+////            model.addAttribute("msg","状态不正常");
+//            return ResponseInfo.getInstance(CommonEnums.ERROR_ACCOUNT_BLOCKED);
+//        }
         if(currentUser.isAuthenticated()){
-            System.out.println("认证成功");
+            //Shiro认证通过后会将user信息放到subject内，生成token并返回
+            SysUser user = (SysUser) currentUser.getPrincipal();
+//            String newToken = service.createToken(user.getUserName());
+            response.setHeader("Authorization", tokenStr);
             JSONObject object = new JSONObject();
             object.put("user", "");
             object.put("token", "token asd123");
             return new ResponseInfo().success(object);
         }else{
-            token.clear();
+//            token.clear();
             return ResponseInfo.getInstance(CommonEnums.ERROR_LOGIN_FAIL);
         }
     }
@@ -85,6 +93,11 @@ public class IndexController {
         service.add(user);
         log.info("uuid: {}", IdGen.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    @RequestMapping("/toLogin")
+    public ResponseInfo toLogin(){
+        log.info("未登录或者登陆已过期");
+        return ResponseInfo.getInstance(CommonEnums.ERROR_NO_LOGGED_OR_LOGIN_EXPIRED);
     }
 
 }

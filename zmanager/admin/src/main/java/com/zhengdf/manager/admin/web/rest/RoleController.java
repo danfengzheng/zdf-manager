@@ -4,6 +4,7 @@ import com.zhengdf.manager.admin.domain.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,6 @@ public class RoleController {
     public ResponseEntity find(){
         return ResponseEntity.status(HttpStatus.OK).body(service.find());
     }
-
 
     @PostMapping("/add")
     @ApiOperation("新增角色")

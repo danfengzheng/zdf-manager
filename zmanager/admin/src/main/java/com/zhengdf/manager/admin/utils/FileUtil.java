@@ -218,7 +218,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         // 1M
         int len = 1024 * 1024;
         if (size > (maxSize * len)) {
-            throw new BadRequestException("文件超出规定大小");
+            throw new RuntimeException("文件超出规定大小");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.zhengdf.manager.admin.utils;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -25,7 +26,27 @@ public class JwtUtils {
             return null;
         }
     }
-
+    /**
+     * 校验token是否正确
+     *
+     * @param token  密钥
+     * @param username 用户
+     * @return 是否正确
+     */
+    public static boolean verify(String token, String username) {
+        try {
+            //根据密码生成JWT效验器
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withClaim("username", username)
+                    .build();
+            //效验TOKEN
+            DecodedJWT jwt = verifier.verify(token);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
     /**
      * 获得token中的信息无需secret解密也能获得
      *
@@ -47,9 +68,10 @@ public class JwtUtils {
      * @param time     过期时间s
      * @return 加密的token
      */
-    public static String sign(String username, String salt, long time) {
+    private static final String secret = "geiwodiangasfdjsikolkjikolkijswe";
+    public static String sign(String username, long time) {
         Date date = new Date(System.currentTimeMillis() + time * 1000);
-        Algorithm algorithm = Algorithm.HMAC256(salt);
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         // 附带username信息
         return JWT.create()
                 .withClaim("username", username)
@@ -79,4 +101,5 @@ public class JwtUtils {
         String hex = secureRandom.nextBytes(16).toHex();
         return hex;
     }
+
 }
